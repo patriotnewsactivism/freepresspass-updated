@@ -1,17 +1,10 @@
-// Database implementation using Supabase
-// This file provides a client-side interface to the Supabase database
-
-import { createClient } from '@supabase/supabase-js';
+// Database implementation using Express API and PostgreSQL
+// This file provides a client-side interface to the database via API calls
 
 class Database {
   constructor() {
-    // Initialize Supabase client with public anon key (safe for client-side)
-    // These values should be replaced with environment variables in production
-    this.supabaseUrl = 'https://your-supabase-url.supabase.co';
-    this.supabaseAnonKey = 'your-supabase-anon-key';
-    
-    // Initialize the Supabase client
-    this.supabase = createClient(this.supabaseUrl, this.supabaseAnonKey);
+    // Base URL for API calls (empty string means same origin)
+    this.apiBaseUrl = '';
     
     // Fallback to localStorage if offline or for development
     this.storageKey = 'pressPasses';
@@ -25,29 +18,29 @@ class Database {
     }
   }
 
-  // Add a new press pass to the database
+  // Add a new press pass to the database via API
   async addPass(passData) {
     try {
-      // First try to add to Supabase
-      const { data, error } = await this.supabase
-        .from('press_passes')
-        .insert({
-          full_name: passData.name,
+      const response = await fetch(`${this.apiBaseUrl}/api/track-pass`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: passData.name,
           email: passData.email,
           title: passData.title || null,
-          organization: passData.organization || null,
-          // Use the provided pass number or generate a new one
-          pass_number: passData.pass_number || this.generateId()
+          pass_number: passData.pass_number || this.generateId(),
+          organization: passData.organization || null
         })
-        .select();
+      });
 
-      if (error) {
-        console.error('Supabase error:', error);
-        // Fall back to localStorage if Supabase fails
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('API error:', errorData);
+        // Fall back to localStorage if API fails
         return this.addPassToLocalStorage(passData);
       }
 
-      return data[0];
+      return await response.json();
     } catch (err) {
       console.error('Database error:', err);
       // Fall back to localStorage if there's any error
@@ -78,22 +71,18 @@ class Database {
     return 'FP-' + Math.random().toString(36).substring(2, 8).toUpperCase();
   }
 
-  // Get all passes from the database
+  // Get all passes from the database via API
   async getAllPasses() {
     try {
-      // Try to get from Supabase first
-      const { data, error } = await this.supabase
-        .from('press_passes')
-        .select('*')
-        .order('issued_at', { ascending: false });
-
-      if (error) {
-        console.error('Supabase error:', error);
+      const response = await fetch(`${this.apiBaseUrl}/api/get-passes`);
+      
+      if (!response.ok) {
+        console.error('API error:', response.statusText);
         // Fall back to localStorage
         return JSON.parse(localStorage.getItem(this.storageKey)) || [];
       }
 
-      return data;
+      return await response.json();
     } catch (err) {
       console.error('Database error:', err);
       // Fall back to localStorage
@@ -101,24 +90,19 @@ class Database {
     }
   }
 
-  // Get a specific pass by ID
+  // Get a specific pass by ID via API
   async getPassById(id) {
     try {
-      // Try to get from Supabase first
-      const { data, error } = await this.supabase
-        .from('press_passes')
-        .select('*')
-        .eq('pass_number', id)
-        .single();
-
-      if (error) {
-        console.error('Supabase error:', error);
+      const response = await fetch(`${this.apiBaseUrl}/api/get-pass/${id}`);
+      
+      if (!response.ok) {
+        console.error('API error:', response.statusText);
         // Fall back to localStorage
         const passes = JSON.parse(localStorage.getItem(this.storageKey)) || [];
         return passes.find(pass => pass.id === id || pass.pass_number === id);
       }
 
-      return data;
+      return await response.json();
     } catch (err) {
       console.error('Database error:', err);
       // Fall back to localStorage
