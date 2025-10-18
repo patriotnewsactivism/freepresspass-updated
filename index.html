@@ -384,11 +384,21 @@
       const firstName = nameWords[0] || '';
       const lastName = nameWords.slice(1).join(' ') || '';
       
-      // Calculate total height of name and title blocks
-      // Two lines for name (first and last)
-      const nameHeight = 28 * 2;
-      const titleHeight = 40;
-      const totalHeight = nameHeight + 5 + titleHeight;
+      // Pre-calculate title lines to get accurate height
+      let titleLines;
+      if (displayTitle && displayTitle.toUpperCase() !== 'INDEPENDENT JOURNALIST') {
+        titleLines = displayTitle.toUpperCase().split(/\s+/);
+      } else {
+        titleLines = ['INDEPENDENT', 'JOURNALIST'];
+      }
+      
+      // Calculate total height of name and title blocks dynamically
+      // Count actual name lines (1 or 2 depending on whether there's a last name)
+      const nameLineCount = lastName ? 2 : 1;
+      const nameHeight = nameLineCount * 28;
+      const titleHeight = titleLines.length * 20;
+      const gapBetween = 5;
+      const totalHeight = nameHeight + gapBetween + titleHeight;
       
       // Start position to center the entire name/title block vertically on photo
       let yPos = photoCenterY - (totalHeight / 2);
@@ -406,27 +416,17 @@
       if (lastName) {
         ctx.fillText(lastName, rightCenterX, yPos);
         yPos += 28;
-      } else {
-        yPos += 28;
       }
       
       // Small gap before role lines
-      yPos += 5;
+      yPos += gapBetween;
       
-      // Role lines: Display title if provided, otherwise INDEPENDENT JOURNALIST
+      // Role lines: Display title using pre-calculated lines
       ctx.font = 'bold 12px "Helvetica", Arial, sans-serif';
-      if (displayTitle && displayTitle.toUpperCase() !== 'INDEPENDENT JOURNALIST') {
-        const titleLines = displayTitle.toUpperCase().split(/\s+/);
-        titleLines.forEach((line) => {
-          ctx.fillText(line, rightCenterX, yPos);
-          yPos += 20;
-        });
-      } else {
-        ctx.fillText('INDEPENDENT', rightCenterX, yPos);
+      titleLines.forEach((line) => {
+        ctx.fillText(line, rightCenterX, yPos);
         yPos += 20;
-        ctx.fillText('JOURNALIST', rightCenterX, yPos);
-        yPos += 20;
-      }
+      });
 
       // Baseline for metadata section
       let baseY = photoY + photoH + 30;
