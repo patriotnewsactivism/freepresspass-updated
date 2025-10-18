@@ -374,24 +374,37 @@
       // Right-hand column: brand, role and personal details
       const rightCenterX = rightX + rightW / 2;
       const photoCenterY = photoY + (photoH / 2);
-      const nameParts = displayName.toUpperCase().split(/\s+/);
+      
+      // Split name into first name and last name (rest of the name)
+      const nameWords = displayName.toUpperCase().trim().split(/\s+/);
+      const firstName = nameWords[0] || '';
+      const lastName = nameWords.slice(1).join(' ') || '';
       
       // Calculate total height of name and title blocks
-      const nameHeight = nameParts.length * 28;
+      // Two lines for name (first and last)
+      const nameHeight = 28 * 2;
       const titleHeight = 40;
       const totalHeight = nameHeight + 5 + titleHeight;
       
-      // Start position to center the entire name/title block on photo
+      // Start position to center the entire name/title block vertically on photo
       let yPos = photoCenterY - (totalHeight / 2);
       
-      // Draw the passholder's name, split into stacked lines
+      // Draw the passholder's name on two lines: first name, then last name
       ctx.fillStyle = '#2c3e50';
       ctx.textAlign = 'center';
-      nameParts.forEach(part => {
-        ctx.font = 'bold 24px "Helvetica", Arial, sans-serif';
-        ctx.fillText(part, rightCenterX, yPos);
+      ctx.font = 'bold 24px "Helvetica", Arial, sans-serif';
+      
+      // First name on first line
+      ctx.fillText(firstName, rightCenterX, yPos);
+      yPos += 28;
+      
+      // Last name on second line (if exists)
+      if (lastName) {
+        ctx.fillText(lastName, rightCenterX, yPos);
         yPos += 28;
-      });
+      } else {
+        yPos += 28;
+      }
       
       // Small gap before role lines
       yPos += 5;
