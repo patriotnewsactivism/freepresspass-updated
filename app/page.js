@@ -7,7 +7,7 @@ import { createCheckoutSession, fetchPasses, trackPass } from '../lib/api';
 import { drawPressPass, genPassId } from '../lib/pass';
 
 const DEFAULT_NAME = 'YOUR NAME HERE';
-const DEFAULT_TITLE = 'INDEPENDENT JOURNALIST';
+const DEFAULT_TITLE = 'Investigative Journalist';
 
 export default function HomePage() {
   const searchParams = useSearchParams();
@@ -362,22 +362,21 @@ export default function HomePage() {
           <h2>Courtesy of Leroy Truth Investigations and The Exposure Report</h2>
           <p>Dedicated to the pursuit of truth and the protection of constitutional freedoms</p>
         </section>
-
         <section className="follow-section">
           <div className="follow-buttons">
             <a href="https://www.youtube.com/@leroytruth" target="_blank" rel="noopener noreferrer">
-              dY"§ Leroy Truth Investigations
+              Leroy Truth Investigations
             </a>
             <a href="https://www.youtube.com/@theexposurereport" target="_blank" rel="noopener noreferrer">
-              dYZT‹,? The Exposure Report
+              The Exposure Report
             </a>
           </div>
         </section>
 
         <section className="info-section">
           <div className="info-card">
-            <h3>dY"ø What Is Press &amp; Journalism?</h3>
-            <h4>dY"«‹,? Definition of "Press"</h4>
+            <h3>What Is Press &amp; Journalism?</h3>
+            <h4>Definition of "Press"</h4>
             <p>
               <strong>The Press</strong> refers to news media organizations, journalists, and individuals who gather,
               verify, and disseminate information to the public. This includes traditional newspapers, television
@@ -391,7 +390,7 @@ export default function HomePage() {
             </p>
           </div>
           <div className="info-card">
-            <h3>dY`ƒ??dY'¬ Definition of "Journalist"</h3>
+            <h3>Definition of "Journalist"</h3>
             <p>
               <strong>A Journalist</strong> is any person who regularly gathers, writes, edits, or disseminates news or
               information to the public. This includes:
@@ -418,7 +417,7 @@ export default function HomePage() {
             </ul>
           </div>
           <div className="info-card">
-            <h3>ƒs-‹,? First Amendment Protection</h3>
+            <h3>First Amendment Protection</h3>
             <p>
               The First Amendment to the U.S. Constitution protects freedom of the press without requiring
               journalists to have special licenses, credentials, or formal training.{' '}
@@ -434,10 +433,10 @@ export default function HomePage() {
             </p>
           </div>
           <div className="info-card">
-            <h3>dY?>‹,? Constitutional Foundation</h3>
+            <h3>Constitutional Foundation</h3>
             <p>
               In recognition of the fundamental principle enshrined in the First Amendment of the United States
-              Constitution, which guarantees that "Congress shall make no lawƒ?I abridging the freedom of speech, or
+              Constitution, which guarantees that "Congress shall make no law abridging the freedom of speech, or
               of the press," this initiative seeks to protect and empower independent journalists in their vital role
               as guardians of democracy.
             </p>
@@ -446,7 +445,7 @@ export default function HomePage() {
               between a free society and those who dedicate themselves to the pursuit of truth, the documentation of
               events, and the preservation of the historical record.
             </p>
-            <h4>dYZ_ Our Mission</h4>
+            <h4>Our Mission</h4>
             <p>
               We believe that every citizen has the right to seek, receive, and share information. This press
               credential supports that fundamental right by providing independent journalists with a visible symbol
@@ -462,7 +461,7 @@ export default function HomePage() {
         <div className="faq-item">
           <h3>Is this press pass legally valid?</h3>
           <p>
-            This digital press pass recognizes your rights under the First Amendment of the U‘+i‘3. While it
+            This digital press pass recognizes your rights under the First Amendment of the U.S. Constitution. While it
             doesn't replace official media credentials, it serves as a statement of your constitutional protections
             as a journalist.
           </p>
@@ -494,8 +493,7 @@ export default function HomePage() {
       <div className="disclaimers">
         <h2>Legal Disclaimers</h2>
         <p>
-          This digital press pass recognizes your rights under the First Amendment of the U.S. Constitution.
-          While it serves as a statement of those protections, it does not replace official media credentials or
+          This digital press pass recognizes your rights under the First Amendment of the U.S. Constitution. While it serves as a statement of those protections, it does not replace official media credentials or
           provide legal immunity. The Constitutional Press Association is not liable for any legal issues that may
           arise from the use of this pass.
         </p>
@@ -543,4 +541,5 @@ export default function HomePage() {
       ) : null}
     </>
   );
-}
+}
+

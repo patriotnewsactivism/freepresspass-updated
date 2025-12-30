@@ -24,6 +24,14 @@ export default function SuccessPage() {
   const [downloadEnabled, setDownloadEnabled] = useState(false);
 
   useEffect(() => {
+    setOrder((prev) => ({
+      ...prev,
+      id: sessionId || 'N/A',
+      passId: passId || 'N/A'
+    }));
+  }, [sessionId, passId]);
+
+  useEffect(() => {
     const verifyDatabaseRecord = async () => {
       if (!passId) {
         setDatabaseStatus({
@@ -76,7 +84,7 @@ export default function SuccessPage() {
 
       <main>
         <div className="success-container">
-          <div className="success-icon">?"</div>
+          <div className="success-icon">OK</div>
           <h2>Order Successful!</h2>
 
           <div className="status-message status-success">
@@ -154,4 +162,5 @@ export default function SuccessPage() {
       </footer>
     </>
   );
-}
+}
+
