@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Script from 'next/script';
 import { createCheckoutSession, fetchPasses, trackPass } from '../lib/api';
@@ -10,6 +10,14 @@ const DEFAULT_NAME = 'YOUR NAME HERE';
 const DEFAULT_TITLE = 'Investigative Journalist';
 
 export default function HomePage() {
+  return (
+    <Suspense fallback={null}>
+      <HomePageContent />
+    </Suspense>
+  );
+}
+
+function HomePageContent() {
   const searchParams = useSearchParams();
   const canvasRef = useRef(null);
   const [name, setName] = useState('');
